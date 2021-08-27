@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Tea",
+        "description": "Tea, what Reimu drinks",
+        "cost": 1,
+        "stock": null
+    },
+    {
+        "name": "Coffee",
+        "description": "Coffee, what Max drinks",
+        "cost": 2,
+        "stock": 10
+    },
+    {
+        "name": "Stock Reroll",
+        "cost": 300,
+        "description": "rerolls stock",
+        "stock": null
+    },
+    {
+        "name": "Stock Token",
+        "cost": 200,
+        "description": "Puts the price up or down, to your choice, up to 10% randomly",
+        "stock": 16
+    },
+    {
+        "name": "Enable Rob",
+        "cost": 30,
+        "description": "enables rob (duh)",
+        "stock": null
+    }
+]

@@ -1,0 +1,13 @@
+{
+    "winThreshold": [
+        50,
+        300
+    ],
+    "loseThreshold": [
+        50,
+        150
+    ],
+    "failRate": 25,
+    "robFailRate": 70,
+    "$": "$"
+}

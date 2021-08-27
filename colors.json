@@ -1,0 +1,35 @@
+{
+    "Red": "#ff0000",
+    "FireBrick": "#b22222",
+    "Pink": "#ffc0cb",
+
+    "Blue": "#0000ff",
+    "Cyan": "#00ffff",
+    "CornflowerBlue": "#6495ed",
+    "LightBlue": "#add8e6",
+    "PaleBlue": "#293749",
+    "SteelBlue": "#4682b4",
+
+    "ForestGreen": "#228b22",
+    "Lime": "#00ff00",
+    "GreenYellow": "#adff2f",
+    "SeaGreen": "#2e8b57",
+    "Olive": "#808000",
+
+    "Orange": "#eb8334",
+    "OrangeRed": "#ff4500",
+
+    "Yellow": "#ffff00",
+    "Gold": "#ffd700",
+    "GoldenRod": "#daa520",
+    "Peru": "#cd853f",
+    "Maroon": "#800000",
+
+    "Purple": "#800080",
+    "Lavender": "#e6e6fa",
+    "Magenta": "#ff00ff",
+
+    "White": "#ffffff",
+    "Black": "#000000",
+    "Gray": "#808080"
+}

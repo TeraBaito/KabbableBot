@@ -35,6 +35,7 @@ module.exports = {
             let config = {
                 prefix: 'k',
                 ownerID: '558264504736153600',
+                guildID: message.guild.id,
                 staffRole: '',
                 announcements: '',
                 changeTime: 43200000,

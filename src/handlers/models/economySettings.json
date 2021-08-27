@@ -8,6 +8,6 @@
         150
     ],
     "failRate": 25,
-    "robFailRate": 70,
+    "robFailRate": 50,
     "$": "$"
 }

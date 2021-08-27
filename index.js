@@ -5,6 +5,7 @@ const fs = require('fs');
 const chalk = require('chalk');
 const { stripIndents } = require('common-tags');
 const { Users } = require('./src/handlers/dbObjects');
+const { teams } = require('./config.json');
 
 /** Currency collection with extra functions to add money/stock and retrieve those numbers
  * @extends {Collection<string, Users>}
@@ -80,7 +81,10 @@ const Bot = class extends Client {
         this.currency = currency;
         this.teams = new Collection();
         this.cooldowns = {
-            rob:        new Collection(),
+            items:      {
+                [teams[0]]: new Collection(),
+                [teams[1]]: new Collection(),
+            },
             normal:     new Collection()
         };
     }

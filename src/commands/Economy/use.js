@@ -31,6 +31,8 @@ module.exports = {
         const userItem = await UserItems.findOne({ where: { user_id: user.user_id, item_id: item.id }});
         if (!userItem || userItem?.amount <= 0) return message.channel.send(`You don't have any \`${item.name}\` in your inventory!`);
 
+        const team = await getTeam(message.member);
+
         switch(item.name) {
             /* Tea, test item #1, just sends a message
             (DON'T) USE IN PROD */
@@ -49,18 +51,25 @@ module.exports = {
             /* Stock Reroll, changes the stock value randomly and publishes it
             Cooldown: 6h | Team */
             case 'Stock Reroll': {
+                if (bot.cooldowns.items[team].get('reroll')) return message.channel.send(`Your team is on cooldown! You can do this again <t:${bot.cooldowns.items[team].get('reroll')}:R>`);
+                
                 user.addItem(item, -1);
                 await keyvEconomy.set('changeStock', false);
                 const val = nastyRng(await keyvEconomy.get('stockPrice'));
                 keyvEconomy.set('stockPrice', val);
                 bot.channels.cache.get(announcements).send(`**${$+val}** (Stock Reroll)`);
                 message.channel.send('Stock price has been rerolled! Also, the next stock change will not happen, just as a little handicap ;)');
+
+                bot.cooldowns.items[team].set('reroll', Math.floor(Date.now() / 1000) + 6 * 60 * 60);
+                setTimeout(() => bot.cooldowns.items[team].delete('reroll'), 6 * 60 * 60 * 1000);
                 break;
             }
             /* Stock Token, changes up to 10% of the current stock value
             in the direction selected by the user
             Cooldown: 6h | Team */
             case 'Stock Token': {
+                if (bot.cooldowns.items[team].get('token')) return message.channel.send(`Your team is on cooldown! You can do this again <t:${bot.cooldowns.items[team].get('token')}:R>`);
+
                 user.addItem(item, -1);
                 message.channel.send('Should it go up or down?')
                     .then(async m => {
@@ -85,13 +94,15 @@ module.exports = {
                             message.channel.send(`Stock price has gone **${perc}%** down! Also, the next stock change will not happen, just as a little handicap ;)`);
                         }
                     });
+
+                bot.cooldowns.items[team].set('token', Math.floor(Date.now() / 1000) + 6 * 60 * 60);
+                setTimeout(() => bot.cooldowns.items[team].delete('token'), 6 * 60 * 60 * 1000);
                 break;
             }
             /* Enable Rob, lets the user use the rob command
             Cooldown: 6 hours | Team */
             case 'Enable Rob': {
                 user.addItem(item, -1);
-                const team = await getTeam(message.member);
                 if (!team) return message.channel.send('You have to join a team to use this item!');
                 const db = await keyvEconomy.get('teamRob');
                 if (db[team]) return message.channel.send('This team already has rob enabled, use it when you see fit!');
@@ -100,9 +111,10 @@ module.exports = {
                 message.channel.send('Enabled a one-use `rob` command usage. Remember robbing has a team-wise 6 hour cooldown!');
                 break;
             }
+            /* Lighten Role, makes the role color of the current team lighter
+            Cooldown: None */
             case 'Lighten Role': {
                 user.addItem(item, -1);
-                const team = await getTeam(message.member);
                 const role = message.guild.roles.cache.get(team);
                 let { color } = role;
                 
@@ -111,9 +123,10 @@ module.exports = {
                 message.channel.send('Lightened color!');
                 break;
             }
+            /* Darken Role, makes the role color of the current team darker
+            Cooldown: None */
             case 'Darken Role': {
                 user.addItem(item, -1);
-                const team = await getTeam(message.member);
                 const role = message.guild.roles.cache.get(team);
                 let { color } = role;
                 

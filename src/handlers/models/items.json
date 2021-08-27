@@ -15,19 +15,19 @@
         "name": "Stock Reroll",
         "cost": 300,
         "description": "Changes the stock price randomly",
-        "stock": null
+        "stock": 20
     },
     {
         "name": "Stock Token",
         "cost": 500,
         "description": "Puts the price up or down, to your choice, up to 10% randomly",
-        "stock": 16
+        "stock": 20
     },
     {
         "name": "Enable Rob",
         "cost": 30,
         "description": "Enables the rob command with a 6 hour cooldown",
-        "stock": null
+        "stock": 20
     },
     {
         "name": "Lighten Role",

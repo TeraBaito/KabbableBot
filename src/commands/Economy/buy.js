@@ -23,7 +23,7 @@ module.exports = {
 
         // Gets the amount and returns if no amount
         if (!args[0]) return message.channel.send('Please specify an item.');
-        let amount = parseInt(args[1]);
+        let amount = parseInt(args[args.length - 1]);
         if (isNaN(amount)) amount = 1;
         if (amount <= 0) return message.channel.send('Why are you trying to buy less than 1 item?');
 

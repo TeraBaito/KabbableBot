@@ -38,7 +38,7 @@ module.exports = {
             .setTitle('Leaderboard')
             .setDescription()
             .setDescription(`
-                ${balanceStrings[0] + '|' + balanceStrings[1]}
+                ${balanceStrings[0] + ' | ' + balanceStrings[1]}
 
 ${lb.join('\n')}`);
 

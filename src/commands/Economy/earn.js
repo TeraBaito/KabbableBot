@@ -9,6 +9,7 @@ module.exports = {
     aliases: ['work', 'win-or-lose-epic-cash-money'],
     usage: 'earn',
     description: 'Earn money for the Kababble team',
+    cooldown: 300,
 
     /**
     * @param {Bot} bot

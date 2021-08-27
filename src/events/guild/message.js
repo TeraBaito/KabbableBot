@@ -1,6 +1,8 @@
-const { Message } = require('discord.js');
+const { Message, Collection } = require('discord.js');
 const Bot = require('../../../index');
 const { readJSONSync } = require('fs-extra');
+
+let toggleCD;
 
 /**
  * `message` event.
@@ -16,7 +18,8 @@ const { readJSONSync } = require('fs-extra');
  */
 module.exports = async (bot, message) => {
     const { prefix, staffRole } = readJSONSync('./config.json');
-    
+    const { cooldowns: { normal: cooldowns }} = bot;
+
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.shift().toLowerCase();
 
@@ -35,8 +38,31 @@ module.exports = async (bot, message) => {
     // Command handler
     let command = bot.commands.get(cmd);
     if(!command) command = bot.commands.get(bot.aliases.get(cmd));
+
     if(command && message.content.startsWith(prefix)) {
-        if (command.staffOnly && !message.member.roles.cache.has(staffRole)) return message.channel.send('You\'re not allowed to use this command.');
+        if (!cooldowns.has(command.name)) cooldowns.set(command.name, new Collection());
+        const now = Date.now(),
+            timestamps = cooldowns.get(command.name),
+            cooldownAmount = (command.cooldown || 3) * 1000;
+
+        if (timestamps.has(message.author.id)) {
+            const expire = timestamps.get(message.author.id) + cooldownAmount;
+
+            if (now < expire) {
+                const left = (expire - now) / 1000;
+                if (!toggleCD) {
+                    message.channel.send(`Please run this command in \`${left.toFixed(1)}s\`!`);
+                    toggleCD = false;
+                    setTimeout(() => toggleCD = true, left);
+                    return;
+                } else return;
+            }
+        }
+
+        timestamps.set(message.author.id, now);
+        setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+
+        if (command.staffOnly && !message.member.roles.cache.has(staffRole)) return message.channel.send('You\'re not allowed to run this command, you\'re not staff!');
         command.run(bot, message, args);
     }
 };

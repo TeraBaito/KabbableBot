@@ -14,19 +14,31 @@
     {
         "name": "Stock Reroll",
         "cost": 300,
-        "description": "rerolls stock",
+        "description": "Changes the stock price randomly",
         "stock": null
     },
     {
         "name": "Stock Token",
-        "cost": 200,
+        "cost": 500,
         "description": "Puts the price up or down, to your choice, up to 10% randomly",
         "stock": 16
     },
     {
         "name": "Enable Rob",
         "cost": 30,
-        "description": "enables rob (duh)",
+        "description": "Enables the rob command with a 6 hour cooldown",
+        "stock": null
+    },
+    {
+        "name": "Lighten Role",
+        "cost": 300,
+        "description": "Lightens your team's color role",
+        "stock": null
+    },
+    {
+        "name": "Darken Role",
+        "cost": 300,
+        "description": "Darkens your team's role color",
         "stock": null
     }
 ]

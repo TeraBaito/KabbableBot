@@ -218,7 +218,7 @@ Economy Settings
             await message.channel.send(msg);
             const collected = await message.channel.awaitMessages(
                 ({ author: { id } }) => id === message.author.id,
-                { max: 1, time: 60000 }
+                { max: 1, time: 120000 }
             );
             return collected.first();
         }

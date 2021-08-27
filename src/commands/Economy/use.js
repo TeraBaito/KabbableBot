@@ -1,4 +1,5 @@
 const { Message } = require('discord.js');
+const Color = require('color');
 const Bot = require('../../../index');
 const { Op } = require('sequelize');
 const { CurrencyShop, Users, UserItems } = require('../../handlers/dbObjects');
@@ -42,8 +43,7 @@ module.exports = {
             DON'T USE IN PROD (at least not the balance update) */
             case 'Coffee': {
                 user.addItem(item, -1);
-                bot.currency.add(message.author.id, item.cost * 5);
-                message.channel.send(`You drink some coffee... much coffee.... A LOT OF COFFEE.... YOU GET IN AN ENERGY TRIP AND MUG SOMEONE AND GET ${$+item.cost * 5} WOHOOOOOO MAX POWER PUN INTENDED`);
+                message.channel.send('You drink some coffee... much coffee.... A LOT OF COFFEE.... YOU GET IN AN ENERGY TRIP AND PUNCH SOMEONE IN THE FACE WOHOOOOOO MAX POWER PUN INTENDED');
                 break;
             }
             /* Stock Reroll, changes the stock value randomly and publishes it
@@ -98,6 +98,28 @@ module.exports = {
                 db[team] = true;
                 keyvEconomy.set('teamRob', db);
                 message.channel.send('Enabled a one-use `rob` command usage. Remember robbing has a team-wise 6 hour cooldown!');
+                break;
+            }
+            case 'Lighten Role': {
+                user.addItem(item, -1);
+                const team = await getTeam(message.member);
+                const role = message.guild.roles.cache.get(team);
+                let { color } = role;
+                
+                color = new Color(color).lighten(0.1).rgbNumber();
+                role.edit({ color });
+                message.channel.send('Lightened color!');
+                break;
+            }
+            case 'Darken Role': {
+                user.addItem(item, -1);
+                const team = await getTeam(message.member);
+                const role = message.guild.roles.cache.get(team);
+                let { color } = role;
+                
+                color = new Color(color).darken(0.1).rgbNumber();
+                role.edit({ color });
+                message.channel.send('Darkened color!');
                 break;
             }
             default: message.channel.send(`The item \`${item.name}\` isn't usable!`);

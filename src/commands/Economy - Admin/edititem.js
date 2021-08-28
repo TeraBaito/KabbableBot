@@ -18,7 +18,7 @@ module.exports = {
     * @param {string[]} args
     */
     run: async(bot, message, args) => {
-        args = args.join(' ').split('$').map(e => e.trim());
+        args = args.join(' ').split(/ +?\$ +?/);
         const path = './src/handlers/models/items.json';
 
         if (args.length < 3) return message.channel.send('Missing args, check the usage with the help command.');
@@ -29,7 +29,8 @@ module.exports = {
         const affected = await CurrencyShop.update({ [args[1]]: newVal }, { where: { name: { [like]: args[0] } } });
         if (!affected) return message.channel.send(`Couldn't find the item \`${args[0]}\``);
         const itemsJSON = readJSONSync(path);
-        itemsJSON.find(i => i.name.toLowerCase() === args[0])[args[1]] = newVal;
+        let item = itemsJSON.find(i => i.name.toLowerCase() === args[0].toLowerCase());
+        item[args[1]] = newVal;
         writeJSONSync(path, itemsJSON, { spaces: 4 });
 
         message.channel.send(new MessageEmbed({

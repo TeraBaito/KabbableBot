@@ -2,32 +2,32 @@
     {
         "name": "Tea",
         "description": "Tea, what Reimu drinks",
-        "cost": 1,
+        "cost": 50,
         "stock": null
     },
     {
         "name": "Coffee",
         "description": "Coffee, what Max drinks",
-        "cost": 2,
+        "cost": 200,
         "stock": 10
     },
     {
         "name": "Stock Reroll",
         "cost": 300,
         "description": "Changes the stock price randomly",
-        "stock": 20
+        "stock": 2000
     },
     {
         "name": "Stock Token",
         "cost": 500,
         "description": "Puts the price up or down, to your choice, up to 10% randomly",
-        "stock": 20
+        "stock": 2000
     },
     {
         "name": "Enable Rob",
-        "cost": 30,
+        "cost": 300,
         "description": "Enables the rob command with a 6 hour cooldown",
-        "stock": 20
+        "stock": 6000
     },
     {
         "name": "Lighten Role",

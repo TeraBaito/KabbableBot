@@ -152,7 +152,7 @@ module.exports = {
         } else if (Object.prototype.hasOwnProperty.call(data[0], args[0])) {
             if (args[0] == 'ownerID') return message.channel.send('You can\'t edit the owner ID.');
             if (!args[1]) return message.channel.send('Specify the value (as-is on the JSON) of the property you want to change');
-            data[0][args[0]] = isNaN(parseInt(args[1])) ? args[1] : parseInt(args[1]);
+            data[0][args[0]] = isNaN(parseInt(args[1])) && args[1].length !== 18 ? args[1] : parseInt(args[1]);
             message.channel.send(new MessageEmbed({
                 color: GoldenRod,
                 description: stripIndents`${
@@ -175,7 +175,7 @@ module.exports = {
             });
         } else if (Object.prototype.hasOwnProperty.call(data[1], args[0])) {
             if (!args[1]) return message.channel.send('Specify the value (as-is on the JSON) of the property you want to change');
-            data[1][args[0]] = isNaN(parseInt(args[1])) ? args[1] : parseInt(args[1]);
+            data[0][args[0]] = isNaN(parseInt(args[1])) && args[1].length !== 18 ? args[1] : parseInt(args[1]);
             message.channel.send(new MessageEmbed({
                 color: GoldenRod,
                 description: stripIndents`${

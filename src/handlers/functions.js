@@ -1,5 +1,6 @@
 const { Message, GuildMember, User } = require('discord.js');
 const { teams } = require('../../config.json');
+const { setTimeout } = require('timers/promises');
 
 /**
 * Finds and returns member object by ID, mention, displayName, username or tag (respectively)
@@ -69,11 +70,9 @@ function nastyRng(number) {
 async function promptMessage(message, author, time, ...validReactions) {
     time *= 1000;
 
-    for(const reaction of validReactions) {
+    for (const reaction of validReactions) {
         message.react(reaction);
-        // eslint-disable-next-line no-inner-declarations
-        const d = async () => new Promise(r => setTimeout(r, 1000));
-        await d();
+        await setTimeout(500);
     }
 
     const filter = (reaction, user) => validReactions.includes(reaction.emoji.name) && user.id === author.id;

@@ -102,10 +102,10 @@ module.exports = {
             /* Enable Rob, lets the user use the rob command
             Cooldown: 6 hours | Team */
             case 'Enable Rob': {
-                user.addItem(item, -1);
                 if (!team) return message.channel.send('You have to join a team to use this item!');
                 const db = await keyvEconomy.get('teamRob');
                 if (db[team]) return message.channel.send('This team already has rob enabled, use it when you see fit!');
+                user.addItem(item, -1);
                 db[team] = true;
                 keyvEconomy.set('teamRob', db);
                 message.channel.send('Enabled a one-use `rob` command usage. Remember robbing has a team-wise 6 hour cooldown!');
@@ -135,7 +135,38 @@ module.exports = {
                 message.channel.send('Darkened color!');
                 break;
             }
+            /* Make Channel, make a channel in the team's category
+            Cooldown: None */
+            case 'Make Channel': {
+                const team = message.guild.roles.cache.get(await getTeam(message.member)).name;
+                // The role name and the team HAVE TO BE CALLED THE SAME NAME for it to work
+                const parent = message.guild.channels.cache.find(e => e.type == 'category' && e.name == team);
+                if (!parent) return message.channel.send('Your category seems to not match your role name, tell an admin to change it!');
+                
+                user.addItem(item, -1);
+                const msg = await message.channel.send('Do you want it to be a Text Channel or a VC?');
+                let input = await promptMessage(msg, message.author, 60, '#️⃣', '🔈');
+                const type = input === '#️⃣' ? 'text' : 'voice';
+                input = await prompt('How should it be called?');
+                if (!input) return message.channel.send('Time ran out.');
+                const newChannel = await message.guild.channels.create(input, {
+                    type,
+                    parent,
+                    reason: 'Make Channel item used'
+                });
+                message.channel.send(`Created the channel \`${newChannel.name}\``);
+                break;
+            }
             default: message.channel.send(`The item \`${item.name}\` isn't usable!`);
+        }
+
+        async function prompt(msg) {
+            await message.channel.send(msg);
+            const collected = await message.channel.awaitMessages(
+                ({ author: { id } }) => id === message.author.id,
+                { max: 1, time: 60000 }
+            );
+            return collected.first()?.content;
         }
     }
 };

@@ -40,5 +40,11 @@
         "cost": 300,
         "description": "Darkens your team's role color",
         "stock": null
+    },
+    {
+        "name": "Make Channel",
+        "cost": 5000,
+        "description": "Make a Text Channel or a VC for your team",
+        "stock": null
     }
 ]

@@ -99,7 +99,7 @@ const bot = new Bot();
 //bot.on('debug', m => console.log(`${chalk.cyan('[Debug]')} - ${m}`));
 bot.on('rateLimit', rl => console.warn(
     stripIndents`${chalk.yellow('[Ratelimit]')}
-    Timeout: ${rl.timeout}
+    Timeout: ${rl.timeout}ms
     Limit: ${rl.limit}
     Route: ${rl.route}`));
 bot.on('warn', w => console.warn(`${chalk.yellow('[Warn]')} - ${w}`));

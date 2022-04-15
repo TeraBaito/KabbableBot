@@ -74,25 +74,23 @@ module.exports = {
                 message.channel.send('Should it go up or down?')
                     .then(async m => {
                         const input = await promptMessage(m, message.author, 30000, '⬆', '⬇');
+                        await keyvEconomy.set('changeStock', false);
+                        const current = await keyvEconomy.get('stockPrice');
+                        const perc = rng(1, 10);
+                        let val;
+                        let upOrDown = '';
                         if (input == '⬆') {
-                            // up to 10% of current
-                            await keyvEconomy.set('changeStock', false);
-                            const current = await keyvEconomy.get('stockPrice');
-                            const perc = rng(1, 10);
-                            const val = current + (current * perc / 100);
-                            keyvEconomy.set('stockPrice', val);
-                            bot.channels.cache.get(announcements).send(`**${$+val}** (Stock Token)`);
-                            message.channel.send(`Stock price has gone **${perc}%** up! Also, the next stock change will not happen, just as a little handicap ;)`);
+                            // up to 10% of current                        
+                            val = Math.floor(current + (current * perc / 100));
+                            upOrDown = 'up';
                         } else if (input == '⬇') {
                             // up to -10% of current
-                            await keyvEconomy.set('changeStock', false);
-                            const current = await keyvEconomy.get('stockPrice');
-                            const perc = rng(1, 10);
-                            const val = current - (current * perc / 100);
-                            keyvEconomy.set('stockPrice', val);
-                            bot.channels.cache.get(announcements).send(`**${$+val}** (Stock Token)`);
-                            message.channel.send(`Stock price has gone **${perc}%** down! Also, the next stock change will not happen, just as a little handicap ;)`);
+                            val = Math.floor(current - (current * perc / 100));
+                            upOrDown = 'down'; 
                         }
+                        keyvEconomy.set('stockPrice', val);
+                        bot.channels.cache.get(announcements).send(`**${$+val}** (Stock Token)`);
+                        message.channel.send(`Stock price has gone **${perc}%** ${upOrDown}! Also, the next stock change will not happen, just as a little handicap ;)`);
                     });
 
                 bot.cooldowns.items[team].set('token', Math.floor(Date.now() / 1000) + 6 * 60 * 60);

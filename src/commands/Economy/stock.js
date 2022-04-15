@@ -8,8 +8,7 @@ const { staffRole, announcements } = require('../../../config.json');
 
 module.exports = {
     name: 'stock',
-    // aliases: [],
-    usage: 'stock {buy, sell, change} (amount)',
+    usage: 'stock {buy, sell, change, user} (amount)',
     description: 'Buy or sell stock at stock price, or change the stock price if you\'re admin!',
 
     /**
@@ -48,6 +47,8 @@ module.exports = {
                 message.channel.send(`Successfully sold ${amount} stock for **${$+total}**!`);
                 break;
             }
+            case 'inv':
+            case 'mine':
             case 'user': {
                 let user = message.member;
                 if (args[1]) user = await getMember(message, args[1]);
